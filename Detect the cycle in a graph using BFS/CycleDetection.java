@@ -1,7 +1,3 @@
-
-
-package com.mycompany.mavenproject2;
-
 import java.util.*;
 
 public class CycleDetection{
