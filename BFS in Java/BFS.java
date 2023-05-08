@@ -10,7 +10,7 @@ public class BFS {
         int source = 0;
         bfs(graph, source);
     }
-    
+   
     public static void bfs(int[][] graph, int source) {
         Queue<Integer> queue = new LinkedList<>();
         boolean[] visited = new boolean[graph.length];
