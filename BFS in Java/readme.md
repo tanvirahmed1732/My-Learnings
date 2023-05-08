@@ -1,5 +1,5 @@
 BFS in Java
-Breadth first search in java using link list
+Breadth first search in java using link list.
 
 
 Explanation:
