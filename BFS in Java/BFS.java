@@ -1,3 +1,4 @@
+//BFS in Java Breadth first search in java using link list.
 import java.util.*;
 
 public class BFS {
