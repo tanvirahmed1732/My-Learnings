@@ -1,0 +1,22 @@
+/* h1{
+    color: pink;
+} */
+button{
+    background-color: green;
+}
+/* body{
+    background-color: grey;
+} */
+.box{
+    background-color: blue;
+}
+.heading{
+    color: red;
+}
+.font{
+    font-family: cursive;
+    font-size: 25px;
+    /* line-height: 25px; */
+    line-height: normal;
+    text-transform: none;
+}
