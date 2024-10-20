@@ -1,0 +1,47 @@
+*{
+    margin: 0;
+    padding: 0;
+    color: white;
+}
+h1{
+    width: 200PX;
+    background-color: rgb(213, 187, 187);
+    height: 200px;
+    border: 5px solid black;
+    /* padding: 100px;
+    margin: 50px; */
+    text-align: center;
+    /* border-radius: 10px; */
+
+}
+.circle{
+    height: 100px;
+    width: 100px;
+    border-radius: 50%;
+    background-color: green;
+}
+.navbar{
+    background-color: #0f1111;
+    height: 60px;
+}
+.logo{
+    font-size: 25px;
+    color: #f08804;
+    text-decoration: none;
+    margin-right: 200px;
+}
+.ac{
+    text-decoration: none;
+    margin-right: 200px;
+}
+.mc{
+    text-decoration: none;
+    margin-right: 200px;
+}
+.cu{
+    text-decoration: none;
+    margin-right: 200px;
+}
+button{
+    background-color: #f08804;
+}
