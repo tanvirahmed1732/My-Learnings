@@ -1,0 +1,70 @@
+/* Percentage (%)
+It is often used to define a size as relative to an element's parent object. */
+/* vh: relative to 1% viewport height
+vw : relative to 1% viewport width */
+
+/* Position
+static - default position (The top, right, bottom, left, and z-index properties have no effect)
+relative - element is relative to itself. (The top, right, bottom, left, and z-index will work)
+absolute - positioned relative to its closest positioned ancestor. (removed from the flow)
+fixed - positioned relative to browser. (removed from flow)
+sticky - positioned based on user's scroll position */
+
+/* z-index
+It decides the stack level of elements
+Overlapping elements with a larger z-index cover those with a smaller one. */
+
+
+/* Background Image
+Used to set an image as background
+background-image : url("image.jpeg");
+background-size : cover / contain / auto*/
+
+*{
+    margin: 0;
+    padding: 0;
+}
+.inner{
+    height: 100vh;
+    width: 100vw;
+    background-color: greenyellow;
+}
+.outer{
+    height: 200px;
+    width: 80%;
+    background-color: orangered;
+}
+.box1, .box2, .box3, .box4{
+    height: 100px;
+    width: 100px;
+    background-color: aqua;
+    border: 3px solid black;
+    display: inline-block;
+    font-size: 20px;
+}
+.box1{
+    position: relative;
+    top: 20px;
+    z-index: 1;
+}
+.box2{
+    position: absolute;
+    top: 20px;
+    left: 20px;
+}
+.box3{
+    position: fixed;
+    top: 50px;
+    left: 400px;
+}
+.box4{
+    position:sticky;
+    top: 0px;
+    left: 600px;
+}
+.im{
+    width: 500px;
+    height: 500px;
+    background-image: url(https://avatarfiles.alphacoders.com/364/364538.png);
+    background-size: cover;
+}
