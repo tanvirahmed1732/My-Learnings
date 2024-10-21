@@ -1,0 +1,92 @@
+/* h1{
+    display: inline;
+} */
+
+/* button{
+    display: block;
+}
+a{
+    display: block;
+} */
+.box1, .box2, .box3{
+    height: 100px;
+    width: 100px;
+    background-color: violet;
+    margin: 50px;
+    padding: 50px;
+    display: inline-block;
+}
+/* inline - Takes only the space required by the element. (no margin/ padding)
+block - Takes full space available in width.
+inline-block - Similar to inline but we can set margin & padding.
+none - To remove element from document flow. */
+
+.box2{
+    visibility: hidden;
+}
+/* When visibility is set to none, space for the element is reserved.
+But for display set to none, no space is reserved or blocked for the
+element. */
+
+.box1{
+    background-color: rgba(255, 0, 0, 0.5);
+}
+
+/* Practice set 4 */
+
+.navbar{
+    background-color: #0f1111;
+    height: 60px;
+}
+.logo{
+    font-size: 25px;
+    color: #f08804;
+    text-decoration: none;
+    margin-right: 200px;
+}
+.ac{
+    text-decoration: none;
+    margin-right: 200px;
+}
+.mc{
+    text-decoration: none;
+    margin-right: 200px;
+}
+.cu{
+    text-decoration: none;
+    margin-right: 200px;
+}
+button{
+    background-color: #f08804;
+}
+
+/* Q1 & Q2 * Q4*/
+.box4,.box5,.box6{
+    height: 100px;
+    width: 100px;
+    border: 5px solid black;
+    display: inline-block;
+}
+
+/* Q3 */
+
+.box4{
+    background-color: rgba(255, 0, 0, 0.5);
+}
+.box5{
+    background-color: rgba(0,255,0,0.5);
+}
+.box6{
+    background-color: rgba(0,0,255,0.5);
+}
+
+footer{
+    background-color: grey;
+    text-align: center;
+    font-size: xx-large;
+}
+
+/* Q4 */
+.box{
+    height: 500px;
+}
