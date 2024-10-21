@@ -1,0 +1,37 @@
+div{
+    height: 100px;
+    width: 100px;
+    border: 3px solid black;
+    display: inline-block;
+    color: white;
+}
+#main{
+    height: 500px;
+    width: 800px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+#box1{
+    background-color: red;
+}
+#box2{
+    background-color: green;
+}
+#box3{
+    background-color: blue;
+}
+.outer{
+    width: 30px;
+    height: 20px;
+    background-color: yellow;
+}
+.inner{
+    width: 60%;
+    height: 40%;
+    background-color: purple;
+    min-height: 50px;
+    max-height: 200px;
+    min-width: 100px;
+    max-width: 500px;
+}
