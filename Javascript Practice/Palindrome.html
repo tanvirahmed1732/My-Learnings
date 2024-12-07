@@ -1,0 +1,38 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h2>Place a string to check palindome or not</h2>
+    <form id="inputform">
+        <label for="input">Enter a string:</label>
+        <input type="text" id="input" required>
+        <button type="submit">Check</button>
+    </form>
+    <p id="result"></p>
+
+    <script>
+        // Trying to implement using funtion that contain object to aceive the objective.
+        const palindrome = {
+            palindromefunc: function (str) {
+                const strr = str.toLowerCase(); // convert the string to lowercase to convert all the string in one format
+                const reversestr = strr.split('').reverse().join(''); // reverse the string
+                return strr === reversestr; //checking if the original string and the reverse one is same of not and return the boolean answer
+            }
+        };
+
+        // Event 
+        document.getElementById('inputform').addEventListener('submit', function (event) {
+            event.preventDefault(); // prevent form submission from reloading the page
+
+            if (palindrome.palindromefunc(document.getElementById('input').value)) { // if the funtion return true
+                document.getElementById('result').textContent = `palindrome.`; // insert a content to the paragraph tag: "palindrome"
+            } else {
+                document.getElementById('result').textContent = `not palindrome.`;
+            }
+        });
+    </script>
+</body>
+</html>
