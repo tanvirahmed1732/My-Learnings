@@ -1,0 +1,36 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+.container{
+    max-width: 80%;
+    background-color: rgb(245, 183, 245);
+    padding: 23px;
+    margin: auto;
+}
+
+.container h1{
+    text-align: center;
+}
+input{
+    width: 80%;
+    margin: 11px auto;
+    font-size: 24px;
+    padding: 9px;
+    border: 2px solid black;
+    border-radius: 6px;
+    outline: none;
+    display: block;
+
+}
+button{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 15px auto;
+    padding: 8px;
+    border: 2px solid black;
+    border-radius: 6px;
+    background-color: rgb(194, 255, 194);
+}
