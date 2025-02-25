@@ -1,0 +1,1 @@
+Here I recall all pandas functionality and practice again. I am trying not to forget everything after learning.
