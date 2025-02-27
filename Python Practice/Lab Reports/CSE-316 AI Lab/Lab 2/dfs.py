@@ -1,24 +1,30 @@
 from collections import deque
 import random
+
 n=int(input("Size of the grid: "))
-ar=[]
+ar=[] #for random obstacle placement postiion
 o=int(input("number of obstacle: "))
-while len(ar)<=o:
-    a,b=random.choice(range(n)),random.choice(range(n))
-    if (a,b) not in ar:
+
+while len(ar)<o:
+    a,b=random.choice(range(n)),random.choice(range(n)) #take a random postition
+    if (a,b) not in ar: #check for override
         ar+=[(a,b)]
-graph = [[1]*n for _ in range(n)]  #a sample graph, copied from the manual
+
+graph = [[1]*n for _ in range(n)]  #generate a NxN grid with all one
 for i,j in ar:
-    graph[i][j]=0
+    graph[i][j]=0 #place obstacle with random postion that we generate earlier.
+
 for i in range(n):
-    print(graph[i])
+    print(graph[i]) #print the finalize grid
+
+#take the starting and goal position.
 sx=int(input("startx: "))
 sy=int(input("starty: "))
 gx=int(input("goalx: "))
 gy=int(input("goaly: "))
 
-start = (sx, sy)  # start point copied from the manual
-goal = (gx, gy)   #gaol " " " "
+start = (sx, sy)  # start point 
+goal = (gx, gy)   #gaol point
 
 def dfs(graph, start, goal):
     directions = [(1, 0), (-1, 0), (0, 1), (0, -1)]  # possible directions where the robot can go
