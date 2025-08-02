@@ -1,0 +1,1 @@
+Here I am learning the k means clustering from my academic course metarial and from the youtube channel CampusX
