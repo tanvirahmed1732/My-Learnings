@@ -1,0 +1,1 @@
+trying to scrap zazzle pages by manual appraoch.
