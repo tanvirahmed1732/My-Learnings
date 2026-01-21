@@ -1,0 +1,1 @@
+ In this mini-course, I am assuming the role of a Data Scientist / Data Analyst. In this role, I will be given a scenario and data to begin your Python project. During this process, I will perform specific tasks such as extracting data, web scraping, visualizing data, and creating a dashboard.
