@@ -1,78 +1,103 @@
 import re
-import time
 import pandas as pd
+from datetime import datetime
+from dateutil import parser as dateparser
+
 from playwright.sync_api import sync_playwright
 
-IN_CSV  = r"D:\Code\GitHub\My-Learnings\zazzle\zazzle_products_to_fill.csv"
-OUT_CSV = r"D:\Code\GitHub\My-Learnings\zazzle\zazzle_products_filled.csv"
+INPUT_CSV  = r"D:\Code\GitHub\My-Learnings\Python\zazzle\Scraping - Bug.csv"
+OUTPUT_CSV = r"D:\Code\GitHub\My-Learnings\Python\zazzle\Scraping - Bug Final.csv"
 
-CREATED_RE = re.compile(r"Created on:\s*([0-9]{1,2}/[0-9]{1,2}/[0-9]{4},\s*[0-9]{1,2}:[0-9]{2}\s*[AP]M)", re.I)
-VIEWS_RE   = re.compile(r"(?:Views|Viewed)\s*(?:on|:)?\s*([0-9][0-9,]*)", re.I)
+URL_COL = "data-page-selector"
+TEXT1_COL = "text_1"
 
-def extract_from_text(page_text: str):
-    created = ""
-    views = ""
-    tags = ""
+CREATED_ON_COL = "created_on"
 
-    m = CREATED_RE.search(page_text)
-    if m:
-        created = m.group(1).strip()
+# Your selector
+CREATED_ON_SELECTOR = r"""#main > div:nth-child(1) > div.WwwPage_root > div > div.WwwPage_shieldWrapper > main > div > div.GAContext-CMSPage.PdpCms-cmsContent > section.row.CmsSectionPdp.CmsSectionPdp-section1929152.sectionType--pdpTagsOtherInfo > div > div > div > div:nth-child(2) > div.OtherInfo > div:nth-child(2) > span"""
 
-    mv = VIEWS_RE.search(page_text)
-    if mv:
-        views = mv.group(1).replace(",", "").strip()
+def parse_text1_to_int(val):
+    if pd.isna(val):
+        return None
+    s = str(val).strip()
 
-    # Tags section: find "Tags" line then take following non-empty lines
-    lines = [ln.strip() for ln in page_text.splitlines() if ln.strip()]
-    for i, ln in enumerate(lines):
-        if ln.lower() == "tags":
-            # Typically next line might be category then a long tag line
-            block = lines[i+1:i+6]
-            if block:
-                best = max(block, key=lambda s: len(s))
-                # On Zazzle these are usually space-separated tags. Convert to comma-separated.
-                tags = ", ".join(best.split())
-            break
+    m = re.search(r"([\d,.]+)\s*([kKmM]?)", s)
+    if not m:
+        return None
 
-    return created, views, tags
+    num = m.group(1).replace(",", "")
+    suf = m.group(2).lower()
 
-def main():
-    df = pd.read_csv(IN_CSV)
-    created_list, views_list, tags_list = [], [], []
+    try:
+        f = float(num)
+    except:
+        return None
 
-    with sync_playwright() as p:
-        browser = p.chromium.launch(headless=True)
-        context = browser.new_context(
-            user_agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120 Safari/537.36",
-            locale="en-US",
-        )
-        page = context.new_page()
+    mult = 1
+    if suf == "k":
+        mult = 1000
+    elif suf == "m":
+        mult = 1_000_000
 
-        for idx, row in df.iterrows():
-            url = str(row["link"]).strip()
-            created = views = tags = ""
+    return int(round(f * mult))
 
-            try:
-                page.goto(url, wait_until="domcontentloaded", timeout=60000)
-                page.wait_for_timeout(1500)  # allow page content to settle
-                text = page.inner_text("body")
-                created, views, tags = extract_from_text(text)
-            except Exception as e:
-                print(f"Failed: {url} ({e})")
+def parse_created_on_text(raw_text: str):
+    """
+    Tries to extract a date from whatever the span contains.
+    Works if the span is like:
+      "Created on January 3, 2024"
+      "Created: Jan 3, 2024"
+      "Jan 3, 2024"
+    """
+    if not raw_text:
+        return None
 
-            created_list.append(created)
-            views_list.append(views)
-            tags_list.append(tags)
+    t = raw_text.strip()
+    # Remove common prefixes
+    t = re.sub(r"(?i)created\s*(on)?\s*[:\-]?\s*", "", t).strip()
 
-            time.sleep(1.0)
+    try:
+        dt = dateparser.parse(t, fuzzy=True)
+        if dt:
+            return dt.date()
+    except:
+        return None
 
-        browser.close()
+    return None
 
-    df["created_on"] = created_list
-    df["views"] = views_list
-    df["tags"] = tags_list
-    df.to_csv(OUT_CSV, index=False)
-    print(f"Saved: {OUT_CSV}")
+df = pd.read_csv(INPUT_CSV)
 
-if __name__ == "__main__":
-    main()
+# Normalize text_1
+df[TEXT1_COL] = df[TEXT1_COL].apply(parse_text1_to_int)
+
+# Prepare created_on column
+if CREATED_ON_COL not in df.columns:
+    df[CREATED_ON_COL] = None
+
+with sync_playwright() as p:
+    browser = p.chromium.launch(headless=True)
+    page = browser.new_page()
+
+    for i, url in enumerate(df[URL_COL].astype(str).tolist()):
+        try:
+            page.goto(url, wait_until="domcontentloaded", timeout=60000)
+            page.wait_for_selector(CREATED_ON_SELECTOR, timeout=30000)
+
+            raw = page.locator(CREATED_ON_SELECTOR).inner_text().strip()
+            created_date = parse_created_on_text(raw)
+
+            df.at[i, CREATED_ON_COL] = created_date.isoformat() if created_date else None
+            print(f"{i+1}/{len(df)} OK | {created_date} | {url}")
+
+        except Exception as e:
+            df.at[i, CREATED_ON_COL] = None
+            print(f"{i+1}/{len(df)} FAIL | {e} | {url}")
+
+    browser.close()
+
+# Sort by created_on as actual date
+df[CREATED_ON_COL] = pd.to_datetime(df[CREATED_ON_COL], errors="coerce")
+df = df.sort_values(by=CREATED_ON_COL, ascending=True, na_position="last").reset_index(drop=True)
+
+df.to_csv(OUTPUT_CSV, index=False)
+print("Saved:", OUTPUT_CSV)
