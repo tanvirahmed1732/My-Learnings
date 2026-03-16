@@ -1,0 +1,7 @@
+[submodule "Data Science Mentorship Program (DSMP)/Week 11 Data Analysis Process/data-wrangling"]
+	path = Data Science Mentorship Program (DSMP)/Week 11 Data Analysis Process/data-wrangling
+	url = https://github.com/campusx-official/data-wrangling
+
+[submodule "Data Science Mentorship Program (DSMP)/Week 11 Data Analysis Process/Session 28 - Data Assessing and Cleaning DSMP 2022-23/data-wrangling"]
+	path = Data Science Mentorship Program (DSMP)/Week 11 Data Analysis Process/Session 28 - Data Assessing and Cleaning DSMP 2022-23/data-wrangling
+	url = https://github.com/campusx-official/data-wrangling
